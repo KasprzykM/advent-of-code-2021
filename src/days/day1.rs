@@ -1,8 +1,8 @@
 use std::fs;
 
 pub fn run() {
-    let contents =
-        fs::read_to_string("src/days/day1_input").expect("Something went wrong reading the file");
+    let contents = fs::read_to_string("src/days/input_files/day1_input.txt")
+        .expect("Something went wrong reading the file");
 
     let input: Vec<i32> = contents
         .split('\n')

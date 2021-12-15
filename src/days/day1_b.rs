@@ -1,5 +1,5 @@
 pub fn run() {
-    let result = include_str!("day1_input")
+    let result = include_str!("input_files/day1_input.txt")
         .lines()
         .map(|n| n.parse().unwrap())
         .collect::<Vec<i32>>()
