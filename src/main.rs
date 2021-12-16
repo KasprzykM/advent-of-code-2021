@@ -1,6 +1,6 @@
 mod days;
 
-use days::{day1, day1_b, day2, day2_b};
+use days::{day1, day1_b, day2, day2_b, day3};
 use std::env;
 
 fn main() {
@@ -18,12 +18,14 @@ fn main() {
         })
         .collect();
 
+    // TODO Refactor this so its less cumbersome, already quite bad.
     for day in days {
         let func = match day {
             0 => day1::run,
             1 => day1_b::run,
             2 => day2::run,
             3 => day2_b::run,
+            4 => day3::run,
             _ => panic!("Day not implemented."),
         };
 
