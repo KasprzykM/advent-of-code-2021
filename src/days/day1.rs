@@ -1,6 +1,11 @@
 use std::fs;
 
 pub fn run() {
+    run_a();
+    run_b();
+}
+
+fn run_a() {
     let contents = fs::read_to_string("src/days/input_files/day1_input.txt")
         .expect("Something went wrong reading the file");
 
@@ -17,5 +22,20 @@ pub fn run() {
         }
         previous_measure = measure;
     }
-    println!("Result: {}", count);
+    println!("a) Answer => {}", count);
+}
+
+fn run_b() {
+    let result = include_str!("input_files/day1_input.txt")
+        .lines()
+        .map(|n| n.parse().unwrap())
+        .collect::<Vec<i32>>()
+        .windows(3)
+        .map(|x| x[0] + x[1] + x[2])
+        .collect::<Vec<i32>>()
+        .windows(2)
+        .filter(|a| a[0] < a[1])
+        .count();
+
+    println!("b) Answer => {}", result);
 }

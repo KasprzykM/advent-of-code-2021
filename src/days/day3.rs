@@ -1,12 +1,16 @@
 use std::iter::FromIterator;
 
 pub fn run() {
+    run_a();
+}
+
+fn run_a() {
     let input: Vec<String> = include_str!("input_files/day3_input.txt")
         .lines()
         .map(|s| s.to_string())
         .collect();
 
-    let number_of_bits = 12;
+    let number_of_bits = input[0].len();
     let mut gamma: Vec<char> = vec![];
     for bit in 0..number_of_bits {
         let mut ones = 0;
@@ -19,19 +23,15 @@ pub fn run() {
             }
         }
         match ones > zeroes {
-            true => {
-                gamma.push('1');
-            }
-            false => {
-                gamma.push('0');
-            }
+            true => gamma.push('1'),
+            false => gamma.push('0'),
         }
     }
-    let byte_mask = 0b1111_1111_1111;
+    let byte_mask = isize::from_str_radix("1".repeat(number_of_bits).as_str(), 2).unwrap();
     let gamma = isize::from_str_radix(String::from_iter(gamma).as_str(), 2).unwrap();
     let epsilon = gamma ^ byte_mask;
     println!(
-        "Gamma => {:b}  Epsilon => {:b}  Answer => {}",
+        "a) Gamma => {:b}  Epsilon => {:b}  Answer => {}",
         gamma,
         epsilon,
         gamma * epsilon

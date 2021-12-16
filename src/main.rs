@@ -1,35 +1,38 @@
 mod days;
 
-use days::{day1, day1_b, day2, day2_b, day3};
-use std::env;
+use clap::{App, Arg};
+use days::{day1, day2, day3};
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        panic!("Please provide the day to run as a command-line argument.");
-    }
+    let matches = App::new("Advent of Code 2021")
+        .version("1.0")
+        .author("Michal K. <michal0kasprzyk@gmail.com>")
+        .about("Rust solutions!")
+        .arg(
+            Arg::with_name("Days")
+                .short("d")
+                .long("days")
+                .value_name("[1 - 31]")
+                .help("Choose days to run")
+                .takes_value(true)
+                .required(true)
+                .multiple(true),
+        )
+        .get_matches();
 
-    let days: Vec<u8> = args
-        .iter()
-        .skip(1)
-        .map(|x| {
-            x.parse()
-                .unwrap_or_else(|v| panic!("Not a valid day: {}", v))
-        })
-        .collect();
-
-    // TODO Refactor this so its less cumbersome, already quite bad.
+    let days = matches.values_of("Days").expect("Provide days to run");
     for day in days {
-        let func = match day {
-            0 => day1::run,
-            1 => day1_b::run,
+        let parsed_day = day.parse().unwrap_or(-1);
+        let func = match parsed_day {
+            1 => day1::run,
             2 => day2::run,
-            3 => day2_b::run,
-            4 => day3::run,
-            _ => panic!("Day not implemented."),
+            3 => day3::run,
+            -1 | _ => {
+                eprintln!(" >> Incorrect day value `{}`. Skipping..<< ", day);
+                continue;
+            }
         };
-
-        println!("\n=== Day {:02} ===", day);
+        println!(" >> Running Day {} <<", day);
         func();
     }
 }
